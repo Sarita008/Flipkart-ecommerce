@@ -1,7 +1,4 @@
-
-
 import { Typography, Box, styled } from '@mui/material'; 
-
 import { navData } from '../../constant/data';
 
 const Component = styled(Box)(({ theme }) => ({
