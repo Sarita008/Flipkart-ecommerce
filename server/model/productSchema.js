@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
-import { AutoIncrement } from 'mongoose-sequence';
+import pkg from 'mongoose-sequence'; // Import the entire module
+const { AutoIncrement } = pkg;      // Destructure AutoIncrement from the default export
 
 const productSchema = new mongoose.Schema({
-    id: String,
+    id: Number, // Auto-incremented field
     url: String,
     detailUrl: String,
     title: Object,
@@ -13,7 +14,7 @@ const productSchema = new mongoose.Schema({
     tagline: String
 });
 
-// Add auto-increment plugin
+// Add the auto-increment plugin
 productSchema.plugin(AutoIncrement, { inc_field: 'id' });
 
 const products = mongoose.model('product', productSchema);
