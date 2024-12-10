@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import Counter from './cartSchema.js';
+import autoIncrement from 'mongoose-auto-increment';
 
 const productSchema = new mongoose.Schema({
-    id: Number, // Auto-incremented field
+    id: String,
     url: String,
     detailUrl: String,
     title: Object,
@@ -13,17 +13,8 @@ const productSchema = new mongoose.Schema({
     tagline: String
 });
 
-productSchema.pre('save', async function (next) {
-    if (this.isNew) {
-        const counter = await Counter.findByIdAndUpdate(
-            { _id: 'product' }, // Counter name
-            { $inc: { seq: 1 } }, // Increment by 1
-            { new: true, upsert: true } // Create if doesn't exist
-        );
-        this.id = counter.seq;
-    }
-    next();
-});
+autoIncrement.initialize(mongoose.connection);
+productSchema.plugin(autoIncrement.plugin, 'product');
 
 const products = mongoose.model('product', productSchema);
 
