@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import autoIncrement from 'mongoose-auto-increment';
+import { AutoIncrement } from 'mongoose-sequence';
 
 const productSchema = new mongoose.Schema({
     id: String,
@@ -13,8 +13,8 @@ const productSchema = new mongoose.Schema({
     tagline: String
 });
 
-autoIncrement.initialize(mongoose.connection);
-productSchema.plugin(autoIncrement.plugin, 'product');
+// Add auto-increment plugin
+productSchema.plugin(AutoIncrement, { inc_field: 'id' });
 
 const products = mongoose.model('product', productSchema);
 
